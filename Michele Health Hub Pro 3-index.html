@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Michele Health Hub Pro</title>
+<style>
+:root{
+  --bg:#faf7fb; --card:#ffffff; --ink:#2e2a2f; --muted:#6f6a73;
+  --brand:#8b5cf6; --brand-2:#ec4899; --brand-3:#22c55e;
+  --shadow:0 10px 30px rgba(139,92,246,.12);
+  --menstrual:#fee2e2; --folicular:#d1fae5; --ovulatoria:#ede9fe; --lutea:#fef9c3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--ink);
+  background:radial-gradient(1200px 800px at 80% -10%,#f4e9ff 0%,transparent 60%),
+             radial-gradient(900px 600px at -10% 20%,#ffe9f3 0%,transparent 60%),var(--bg);
+  padding:20px;
+}
+.container{max-width:1400px;margin:0 auto}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+.h-title{font-size:28px;font-weight:900;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.h-actions{display:flex;gap:12px;flex-wrap:wrap}
+button{
+  border:0;border-radius:12px;padding:12px 20px;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  color:#fff;font-weight:700;font-size:14px;cursor:pointer;
+  box-shadow:var(--shadow);transition:all 0.3s;
+}
+button:hover{transform:translateY(-2px);box-shadow:0 15px 35px rgba(139,92,246,.2)}
+.btn-secondary{background:#f3f0ff;color:#5b21b6;border:2px solid #e0d7ff}
+.btn-small{padding:8px 14px;font-size:12px}
+.grid{display:grid;gap:16px}
+@media(min-width:900px){
+  .grid-cols-2{grid-template-columns:repeat(2,1fr)}
+  .grid-cols-3{grid-template-columns:repeat(3,1fr)}
+  .grid-cols-4{grid-template-columns:repeat(4,1fr)}
+}
+.card{background:var(--card);border-radius:18px;padding:20px;box-shadow:var(--shadow);transition:all 0.3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(139,92,246,.18)}
+.card-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:10px;font-weight:700}
+.kpi{display:flex;align-items:baseline;gap:8px;margin:8px 0}
+.kpi .value{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .unit{color:var(--muted);font-size:14px;font-weight:600}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+input,select,textarea{width:100%;padding:12px 14px;border:2px solid #e8e4ef;border-radius:12px;background:#fff;
+  outline:none;font-size:14px;transition:all 0.3s;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:#c4b5fd;box-shadow:0 0 0 4px rgba(139,92,246,.12)}
+.table-wrapper{overflow-x:auto;margin-top:16px}
+.table{width:100%;border-collapse:separate;border-spacing:0 8px;min-width:1500px}
+.table thead th{font-size:11px;color:var(--muted);text-align:left;padding:8px 12px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.08em;cursor:pointer}
+.table tbody tr{background:var(--card);box-shadow:var(--shadow);transition:all 0.3s}
+.table tbody tr:hover{transform:translateX(4px)}
+.table tbody td{padding:14px 12px;font-size:13px}
+.table td[contenteditable]:hover{background:#faf8ff;cursor:text}
+.badge{padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;display:inline-block;
+  text-transform:uppercase}
+.badge.good{background:#d1fae5;color:#047857;border:2px solid #86efac}
+.badge.warn{background:#fef3c7;color:#92400e;border:2px solid #fcd34d}
+.badge.bad{background:#fee2e2;color:#991b1b;border:2px solid #fca5a5}
+.tabbar{display:flex;gap:8px;margin:14px 0 0;flex-wrap:wrap}
+.tab{padding:10px 18px;border-radius:12px;border:2px solid #eadffd;background:#f8f5ff;
+  color:#5b21b6;cursor:pointer;font-weight:700;font-size:13px;transition:all 0.3s}
+.tab:hover{background:#f3f0ff}
+.tab.active{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}
+.chart-container{height:300px;position:relative}
+canvas{width:100%!important;height:100%!important}
+hr.soft{border:0;height:1px;background:linear-gradient(90deg,transparent,#f1eaff,transparent);margin:16px 0}
+.summarybar{background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,255,255,0.85));
+  backdrop-filter:blur(10px);border-radius:16px;padding:14px 20px;display:flex;gap:24px;
+  align-items:center;justify-content:center;margin:0 0 20px 0;font-size:13px;
+  box-shadow:0 8px 24px rgba(139,92,246,.15);flex-wrap:wrap;border:2px solid rgba(139,92,246,.1)}
+.summarybar b{font-weight:900;color:var(--brand)}
+.modal-backdrop{position:fixed;top:0;left:0;right:0;bottom:0;display:none;
+  justify-content:center;align-items:center;background:rgba(0,0,0,.6);z-index:9999;backdrop-filter:blur(4px)}
+.modal{background:#fff;border-radius:20px;padding:28px;width:90%;max-width:700px;
+  box-shadow:0 25px 50px rgba(0,0,0,.3);max-height:90vh;overflow-y:auto}
+.modal h3{margin-bottom:20px;font-size:22px;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.proj{border:2px solid #dbeafe;background:#dbeafe;border-radius:16px;padding:18px}
+.proj.green{border-color:#bbf7d0;background:#dcfce7}
+.proj.purple{border-color:#e9d5ff;background:#efe9ff}
+.proj h4{margin:0 0 14px 0;font-size:14px;text-transform:uppercase}
+.proj .grid-in{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.proj .big{font-weight:900;font-size:24px}
+.small{font-size:11px;color:#6b7280;margin-top:4px}
+.notification{position:fixed;top:20px;right:20px;background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  color:#fff;padding:16px 24px;border-radius:12px;box-shadow:0 10px 30px rgba(139,92,246,.3);z-index:10000;
+  animation:slideIn 0.3s ease-out}
+@keyframes slideIn{from{opacity:0;transform:translateX(100px)}to{opacity:1;transform:translateX(0)}}
+code{background:#f3f0ff;padding:2px 6px;border-radius:4px;font-size:12px;color:var(--brand);font-family:monospace}
+@media(max-width:899px){
+  .grid-cols-4,.grid-cols-3,.grid-cols-2{grid-template-columns:1fr}
+  .chart-container{height:250px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="summarybar" id="summaryBar">Carregando...</div>
+
+  <div class="header">
+    <div class="h-title">Michele Health Hub Pro </div>
+    <div class="h-actions">
+      <button id="btnAddDay">+ Novo Registro</button>
+      <button class="btn-secondary" id="btnPDF">📄 PDF</button>
+      <button class="btn-secondary" id="btnExport">📥 Exportar JSON</button>
+      <button class="btn-secondary" id="btnImport">📤 Importar JSON</button>
+      <button class="btn-secondary" id="btnGerarJSON">🔮 Gerar JSON no Sheets</button>
+      <button class="btn-secondary" id="btnGSheets">📊 Google Sheets</button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-4">
+    <div class="card">
+      <div class="card-title">📅 Dia Selecionado</div>
+      <div class="row">
+        <div style="flex:1">
+          <label>Data</label>
+          <input type="date" id="datePicker"/>
+        </div>
+      </div>
+      <hr class="soft">
+      <div class="row">
+        <div style="flex:1">
+          <label>🎯 Peso Alvo (kg)</label>
+          <input type="number" step="0.1" id="targetWeight" placeholder="Ex: 65.0"/>
+        </div>
+      </div>
+      <div class="tabbar" id="dayTabs">
+        <div class="tab active" data-tab="overview">Resumo</div>
+        <div class="tab" data-tab="charts">Gráficos</div>
+        <div class="tab" data-tab="history">Histórico</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🍽️ Calorias Consumidas</div>
+      <div class="kpi">
+        <div class="value" id="kpiConsumed">0</div>
+        <div class="unit">kcal</div>
+      </div>
+      <hr class="soft">
+      <div class="card-title">Macros</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:600">
+        <span>🥩 P: <b id="kpiP" style="color:var(--brand)">0</b>g</span>
+        <span>🍞 C: <b id="kpiC" style="color:var(--brand-2)">0</b>g</span>
+        <span>🥑 G: <b id="kpiF" style="color:var(--brand-3)">0</b>g</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔥 Calorias Gastas</div>
+      <div class="kpi">
+        <div class="value" id="kpiBurned">0</div>
+        <div class="unit">kcal</div>
+      </div>
+      <hr class="soft">
+      <div class="card-title">Treino</div>
+      <div style="font-size:13px;font-weight:600" id="kpiTraining">—</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚖️ Balanço do Dia</div>
+      <div class="kpi">
+        <div class="value" id="kpiDeficit">0</div>
+        <div class="unit">kcal</div>
+      </div>
+      <div style="margin-top:8px">
+        <span id="deficitBadge" class="badge">Equilíbrio</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-overview">
+    <div class="card" style="margin-top:16px;background:linear-gradient(135deg, #fef3c7, #fde68a);border:2px solid #fbbf24">
+      <div class="card-title">🌙 INSIGHTS DO CICLO MENSTRUAL</div>
+      
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+        <div style="background:var(--menstrual);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;flex:1;min-width:120px">
+          🩸 1: Menstruação
+        </div>
+        <div style="background:var(--folicular);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;flex:1;min-width:120px">
+          🌱 2: Folicular
+        </div>
+        <div style="background:var(--ovulatoria);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;flex:1;min-width:120px">
+          ✨ 3: Ovulatória
+        </div>
+        <div style="background:var(--lutea);padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;flex:1;min-width:120px">
+          🌕 4: Lútea
+        </div>
+      </div>
+      
+      <div id="cycleInsights" style="font-size:13px;line-height:1.8">
+        <p style="color:var(--muted)">🔍 Adicione pelo menos 4 registros com as fases do ciclo para ver insights personalizados!</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">📊 Projeção de Peso</div>
+      <div class="row" style="margin-bottom:16px">
+        <div style="max-width:240px">
+          <label>Data-Alvo</label>
+          <input type="month" id="projMonth"/>
+        </div>
+        <div style="max-width:240px">
+          <label>Déficit Programado (kcal/dia)</label>
+          <input type="number" id="progDef" value="300"/>
+        </div>
+      </div>
+      <hr class="soft"/>
+      <div class="grid grid-cols-3">
+        <div class="proj">
+          <h4>📈 Tendência Atual</h4>
+          <div class="grid-in">
+            <div><div class="small">Perda/sem</div><div class="big" id="trendWeek">—</div></div>
+            <div><div class="small">Peso alvo</div><div class="big" id="trendTarget">—</div></div>
+            <div><div class="small">Perda total</div><div class="big" id="trendTotal">—</div></div>
+          </div>
+        </div>
+        <div class="proj green">
+          <h4>🎯 Déficit Programado</h4>
+          <div class="grid-in">
+            <div><div class="small">Perda/sem</div><div class="big" id="progWeek">—</div></div>
+            <div><div class="small">Peso alvo</div><div class="big" id="progTarget">—</div></div>
+            <div><div class="small">Perda total</div><div class="big" id="progTotal">—</div></div>
+          </div>
+        </div>
+        <div class="proj purple">
+          <h4>💜 Déficit Real</h4>
+          <div class="grid-in">
+            <div><div class="small">Perda/sem</div><div class="big" id="realWeek">—</div></div>
+            <div><div class="small">Peso alvo</div><div class="big" id="realTarget">—</div></div>
+            <div><div class="small">Perda total</div><div class="big" id="realTotal">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3" style="margin-top:16px">
+      <div class="card" style="background:#dbeafe;border:2px solid #bfdbfe">
+        <div class="card-title">📉 Déficit Médio Semanal</div>
+        <div class="kpi">
+          <div class="value" id="avgWeekKcal" style="color:#0284c7">—</div>
+          <div class="unit">kcal/dia</div>
+        </div>
+      </div>
+      <div class="card" style="background:#dcfce7;border:2px solid #bbf7d0">
+        <div class="card-title">⚖️ Perda Estimada</div>
+        <div class="kpi">
+          <div class="value" id="lossPerWeek" style="color:#059669">—</div>
+          <div class="unit">kg/sem</div>
+        </div>
+      </div>
+      <div class="card" style="background:#efe9ff;border:2px solid #e9d5ff">
+        <div class="card-title">🔢 Balanço Semanal</div>
+        <div class="kpi">
+          <div class="value" id="burnWeek" style="color:#7c3aed">—</div>
+          <div class="unit">kcal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-charts" style="display:none">
+    <div class="grid grid-cols-2" style="margin-top:16px;gap:20px">
+      <div class="card" style="padding:24px">
+        <div class="card-title">📊 Peso x Tendência</div>
+        <div class="chart-container"><canvas id="chartWeight"></canvas></div>
+      </div>
+      <div class="card" style="padding:24px">
+        <div class="card-title">🌙 Peso x Fase do Ciclo</div>
+        <div class="chart-container"><canvas id="chartCycle"></canvas></div>
+      </div>
+      <div class="card" style="padding:24px">
+        <div class="card-title">😊 Humor x Body Battery</div>
+        <div class="chart-container"><canvas id="chartMood"></canvas></div>
+      </div>
+      <div class="card" style="padding:24px">
+        <div class="card-title">😴 Qualidade do Sono</div>
+        <div class="chart-container"><canvas id="chartSleep"></canvas></div>
+      </div>
+      <div class="card" style="padding:24px">
+        <div class="card-title">🥗 Macros (P/C/G)</div>
+        <div class="chart-container"><canvas id="chartMacros"></canvas></div>
+      </div>
+      <div class="card" style="padding:24px">
+        <div class="card-title">📊 Estresse x Ciclo x Treino</div>
+        <div style="font-size:11px;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap">
+          <span>🩸 <b>1:</b> Menstruação</span>
+          <span>🌱 <b>2:</b> Folicular</span>
+          <span>✨ <b>3:</b> Ovulatória</span>
+          <span>🌕 <b>4:</b> Lútea</span>
+        </div>
+        <div class="chart-container"><canvas id="chartStress"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-history" class="card" style="margin-top:16px;display:none">
+    <div class="card-title">📋 Histórico Completo</div>
+    <div class="table-wrapper">
+      <table class="table" id="historyTable">
+        <thead>
+          <tr>
+            <th data-sort="date">Data</th><th data-sort="weight">Peso</th><th data-sort="sleep">Sono</th><th data-sort="mood">Humor</th><th data-sort="bb">BB</th><th data-sort="stress">Estresse</th>
+            <th data-sort="trainingType">Treino</th><th data-sort="trainingBurned">Kcal Treino</th><th data-sort="burned">GET</th><th data-sort="consumed">Consumido</th>
+            <th data-sort="prot">Prot</th><th data-sort="carb">Carb</th><th data-sort="fat">Gord</th><th data-sort="deficit">Balanço</th><th data-sort="phase">Fase</th><th data-sort="mindfulness">Mind</th><th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalDay">
+  <div class="modal">
+    <h3>✨ Novo Registro</h3>
+    <div class="grid grid-cols-2" style="gap:12px">
+      <div><label>Data</label><input type="date" id="f_date"></div>
+      <div><label>Peso (kg)</label><input type="number" step="0.1" id="f_weight"></div>
+      <div><label>Sono (h)</label><input type="number" step="0.1" id="f_sleep"></div>
+      <div><label>Humor (0-5)</label><input type="number" min="0" max="5" id="f_mood"></div>
+      <div><label>Body Battery</label><input type="number" min="0" max="100" id="f_bb"></div>
+      <div><label>Estresse (0-100)</label><input type="number" min="0" max="100" id="f_stress"></div>
+      <div><label>GET (kcal)</label><input type="number" id="f_burned"></div>
+      <div><label>Tipo Treino</label><input type="text" id="f_training"></div>
+      <div><label>Kcal Treino</label><input type="number" id="f_train_burn"></div>
+      <div><label>Mindfulness (min)</label><input type="number" id="f_mind"></div>
+      <div><label>Fase (1-4)</label><input type="number" min="1" max="4" id="f_phase"></div>
+      <div><label>Consumido (kcal)</label><input type="number" id="f_cons"></div>
+      <div><label>Proteína (g)</label><input type="number" step="0.1" id="f_p"></div>
+      <div><label>Carboidrato (g)</label><input type="number" step="0.1" id="f_c"></div>
+      <div><label>Gordura (g)</label><input type="number" step="0.1" id="f_f"></div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px">
+      <button class="btn-secondary" id="closeDay">Cancelar</button>
+      <button id="saveDay">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalGerarJSON">
+  <div class="modal">
+    <h3>🔮 Gerar JSON do Google Sheets</h3>
+    <p style="margin-bottom:16px;line-height:1.8;font-size:14px;background:#dcfce7;padding:16px;border-radius:12px;border-left:4px solid var(--brand-3)">
+      <b>✨ MÉTODO SUPER FÁCIL!</b><br><br>
+      Cole um código no Google Sheets e ele gera o JSON automaticamente!
+    </p>
+    
+    <div style="background:#f3f0ff;padding:16px;border-radius:12px;margin-bottom:16px;line-height:1.8">
+      <b>📝 Passo a passo (5 minutos):</b><br><br>
+      
+      <b>1.</b> Organize seus dados no Google Sheets com estas colunas:<br>
+      <small style="background:#fff;padding:4px 8px;border-radius:4px;display:inline-block;margin:8px 0;font-family:monospace">
+        Data | Peso | Sono | Humor | BB | Estresse | Treino | Kcal Treino | GET | Consumido | Prot | Carb | Gord | Fase | Mind
+      </small><br><br>
+      
+      <b>2.</b> No Google Sheets, vá em: <b>Extensões → Apps Script</b><br><br>
+      
+      <b>3.</b> Clique no botão abaixo para <b>copiar o código</b><br><br>
+      
+      <b>4.</b> Cole o código no Apps Script e <b>salve</b> (Ctrl+S)<br><br>
+      
+      <b>5.</b> Clique em <b>▶️ Executar</b> (função exportToJSON)<br><br>
+      
+      <b>6.</b> <b>Autorize</b> quando pedir permissões<br><br>
+      
+      <b>7.</b> Vai gerar um arquivo <b>"michele-health.json"</b> no seu Google Drive!<br><br>
+      
+      <b>8.</b> <b>Baixe o arquivo</b> do Drive<br><br>
+      
+      <b>9.</b> Clique em <b>"📤 Importar JSON"</b> aqui e selecione o arquivo<br><br>
+      
+      <b>PRONTO! 🎉</b> Todos os dados importados!
+    </div>
+    
+    <div style="margin-bottom:16px">
+      <button id="btnCopyJSONCode" style="width:100%;font-size:16px;padding:16px">
+        📋 COPIAR CÓDIGO PARA GERAR JSON
+      </button>
+    </div>
+    
+    <div style="background:#fef3c7;padding:12px;border-radius:8px;margin-bottom:16px;font-size:13px">
+      <b>💡 Dica:</b> Depois de gerar o JSON uma vez, você pode usar o mesmo arquivo sempre! 
+      Atualize os dados no Sheets e execute novamente para gerar um novo JSON.
+    </div>
+    
+    <div style="display:flex;gap:12px;justify-content:flex-end">
+      <button class="btn-secondary" id="closeGerarJSON">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalGSheets">
+  <div class="modal">
+    <h3>📊 Google Sheets - Sincronização</h3>
+    <p style="margin-bottom:16px;line-height:1.8;font-size:14px;background:#f3f0ff;padding:16px;border-radius:12px;border-left:4px solid var(--brand)">
+      <b>📝 Passo a passo:</b><br><br>
+      <b>1.</b> Crie uma planilha no Google Sheets<br>
+      <b>2.</b> Vá em <b>Extensões → Apps Script</b><br>
+      <b>3.</b> Clique em <b>"📋 Copiar Código"</b> abaixo e <b>cole no Apps Script</b><br>
+      <b>4.</b> Clique em <b>💾 Salvar</b> (ícone de disquete)<br>
+      <b>5.</b> Clique em <b>▶️ Executar</b> (autorize as permissões)<br>
+      <b>6.</b> Clique em <b>🚀 Implantar → Nova implantação</b><br>
+      <b>7.</b> Tipo: <b>Aplicativo da Web</b><br>
+      <b>8.</b> Execute como: <b>Eu</b> | Acesso: <b>Qualquer pessoa</b><br>
+      <b>9.</b> <b>Copie a URL</b> gerada e cole abaixo<br>
+      <b>10.</b> Clique em <b>"🔄 Sincronizar Agora"</b>
+    </p>
+    <div style="margin-bottom:16px">
+      <button class="btn-secondary" id="btnCopyCode" style="width:100%;font-size:15px;padding:14px">📋 Copiar Código do Apps Script</button>
+    </div>
+    <div style="margin-bottom:16px">
+      <label>🔗 URL do Web App (cole aqui depois da implantação)</label>
+      <input type="text" id="gsUrl" placeholder="https://script.google.com/macros/s/...../exec" style="font-size:13px"/>
+      <small style="color:var(--muted);display:block;margin-top:6px">
+        ⚠️ A URL deve terminar com <code>/exec</code> (não /dev)
+      </small>
+    </div>
+    <div style="margin-bottom:16px">
+      <button class="btn-secondary" id="btnTestGSheets" style="width:100%">🧪 Testar Conexão Primeiro</button>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end">
+      <button class="btn-secondary" id="closeGSheets">Fechar</button>
+      <button id="syncGSheets">🔄 Sincronizar Agora</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const KEY='michele_v19';
+let state=load()||{days:[],targetWeight:null};
+let charts={};
+let historySort={key:'date',dir:'desc'}; 
+const KG_PER_KCAL=1/7700;
+
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(state));
+  showNotif('💾 Salvo!');
+}
+
+function num(v){
+  if(v===null||v===undefined||v==='')return null;
+  v=String(v).trim().replace(',','.');
+  const n=Number(v);
+  return isNaN(n)?null:n;
+}
+
+function mean(arr){
+  const v=arr.map(x=>num(x)).filter(x=>x!=null);
+  return v.length?v.reduce((s,n)=>s+n,0)/v.length:null;
+}
+
+function normalizeData(data){
+  if(!data||!data.days)return data;
+  
+  data.days=data.days.map(d=>({
+    date:d.date,
+    weight:num(d.weight),
+    sleep:num(d.sleep),
+    mood:num(d.mood),
+    bb:num(d.bb),
+    stress:num(d.stress),
+    trainingType:String(d.trainingType||'').trim(),
+    trainingBurned:num(d.trainingBurned)||0,
+    burned:num(d.burned)||0,
+    consumed:num(d.consumed)||0,
+    prot:num(d.prot)||0,
+    carb:num(d.carb)||0,
+    fat:num(d.fat)||0,
+    phase:num(d.phase),
+    mindfulness:num(d.mindfulness)||0
+  }));
+  
+  if(data.targetWeight===undefined){
+    data.targetWeight=null;
+  }else{
+    data.targetWeight=num(data.targetWeight);
+  }
+  
+  return data;
+}
+
+function load(){
+  try{
+    const raw=JSON.parse(localStorage.getItem(KEY));
+    return raw?normalizeData(raw):null;
+  }catch(e){
+    return null;
+  }
+}
+
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+
+function fmt(n,d=0){
+  if(n==null||isNaN(n))return '—';
+  if(d === 0) return Number(n).toFixed(0).replace('.',',');
+  return Number(n).toFixed(d).replace('.',','); 
+}
+
+function formatDate(dateStr){
+  if(!dateStr)return '';
+  const [y,m,d]=dateStr.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function toISODate(brDate){
+  if(!brDate||!brDate.includes('/'))return brDate;
+  const [d,m,y]=brDate.split('/');
+  return `${y}-${m}-${d}`;
+}
+
+function today(){
+  const t=new Date();
+  return `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+}
+
+function showNotif(msg){
+  const n=document.createElement('div');
+  n.className='notification';
+  n.textContent=msg;
+  document.body.appendChild(n);
+  setTimeout(()=>n.remove(),2500);
+}
+
+function getDay(date){
+  return state.days.find(x=>x.date===date);
+}
+
+function ensureDay(date){
+  let d=getDay(date);
+  if(!d){
+    d={
+      date,weight:null,sleep:null,mood:null,bb:null,stress:null,
+      trainingType:'',trainingBurned:0,burned:0,consumed:0,
+      prot:0,carb:0,fat:0,phase:null,mindfulness:0
+    };
+    state.days.push(d);
+  }
+  return d;
+}
+
+function deficitOf(d){
+  const c=num(d.consumed);
+  const b=num(d.burned);
+  return (c==null||b==null)?null:(b-c);
+}
+
+function setupTabs(){
+  $$('#dayTabs .tab').forEach(t=>{
+    if(t){
+      t.addEventListener('click',()=>{
+        $$('#dayTabs .tab').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+        showTab(t.dataset.tab);
+      });
+    }
+  });
+}
+
+function showTab(k){
+  const tabs={
+    overview:$('#tab-overview'),
+    charts:$('#tab-charts'),
+    history:$('#tab-history')
+  };
+  
+  Object.keys(tabs).forEach(key=>{
+    if(tabs[key]){
+      tabs[key].style.display=(k===key)?'block':'none';
+    }
+  });
+  
+  if(k==='charts')setTimeout(drawAllCharts,100);
+}
+
+function render(){
+  const datePicker=$('#datePicker');
+  if(!datePicker)return;
+  
+  const d=ensureDay(datePicker.value);
+  
+  if($('#kpiConsumed'))$('#kpiConsumed').textContent=fmt(d.consumed);
+  if($('#kpiP'))$('#kpiP').textContent=fmt(d.prot,1);
+  if($('#kpiC'))$('#kpiC').textContent=fmt(d.carb,1);
+  if($('#kpiF'))$('#kpiF').textContent=fmt(d.fat,1);
+  if($('#kpiBurned'))$('#kpiBurned').textContent=fmt(d.burned);
+  
+  if($('#kpiTraining')){
+    $('#kpiTraining').textContent=d.trainingType?`${d.trainingType} • ${fmt(d.trainingBurned)} kcal`:'—';
+  }
+  
+  const def=deficitOf(d);
+  if($('#kpiDeficit'))$('#kpiDeficit').textContent=fmt(def);
+  
+  const badge=$('#deficitBadge');
+  if(badge){
+    if(def!=null){
+      if(def>150){
+        badge.className='badge good';
+        badge.textContent='✓ Déficit';
+      }else if(def<-150){
+        badge.className='badge bad';
+        badge.textContent='⚠ Superávit';
+      }else{
+        badge.className='badge warn';
+        badge.textContent='≈ Equilíbrio';
+      }
+    }else{
+      badge.textContent='—';
+      badge.className='badge';
+    }
+  }
+  
+  renderHistory();
+  updateSummary();
+  computeProjections();
+  computeWeekly();
+  computeCycleInsights();
+}
+
+function renderHistory(){
+  const hb=$('#historyTable tbody');
+  if(!hb)return;
+  
+  hb.innerHTML='';
+  
+  const sorted=[...state.days].sort((a,b)=>{
+    let aVal,bVal;
+    
+    if(historySort.key === 'deficit'){
+      aVal = deficitOf(a);
+      bVal = deficitOf(b);
+    } else if (historySort.key === 'date') {
+      aVal = a.date;
+      bVal = b.date;
+    } else {
+      aVal = num(a[historySort.key]);
+      bVal = num(b[historySort.key]);
+    }
+    
+    const isANull = aVal === null || aVal === undefined || aVal === '';
+    const isBNull = bVal === null || bVal === undefined || bVal === '';
+    
+    if (isANull && isBNull) return 0;
+    if (isANull) return historySort.dir === 'asc' ? 1 : -1; 
+    if (isBNull) return historySort.dir === 'asc' ? -1 : 1; 
+
+    if (aVal < bVal) return historySort.dir === 'asc' ? -1 : 1;
+    if (aVal > bVal) return historySort.dir === 'asc' ? 1 : -1;
+    return 0;
+  });
+  
+  sorted.forEach(row=>{
+    const tr=document.createElement('tr');
+    const def=deficitOf(row);
+    
+    tr.innerHTML=`
+      <td contenteditable data-day="${row.date}" data-field="date">${formatDate(row.date)}</td>
+      <td contenteditable data-day="${row.date}" data-field="weight">${row.weight!=null?fmt(row.weight,1):''}</td>
+      <td contenteditable data-day="${row.date}" data-field="sleep">${row.sleep!=null?fmt(row.sleep,1):''}</td>
+      <td contenteditable data-day="${row.date}" data-field="mood">${row.mood!=null?fmt(row.mood):''}</td>
+      <td contenteditable data-day="${row.date}" data-field="bb">${row.bb!=null?fmt(row.bb):''}</td>
+      <td contenteditable data-day="${row.date}" data-field="stress">${row.stress!=null?fmt(row.stress):''}</td>
+      <td contenteditable data-day="${row.date}" data-field="trainingType">${row.trainingType||''}</td>
+      <td contenteditable data-day="${row.date}" data-field="trainingBurned">${fmt(row.trainingBurned)}</td>
+      <td contenteditable data-day="${row.date}" data-field="burned">${fmt(row.burned)}</td>
+      <td contenteditable data-day="${row.date}" data-field="consumed">${fmt(row.consumed)}</td>
+      <td contenteditable data-day="${row.date}" data-field="prot">${fmt(row.prot,1)}</td>
+      <td contenteditable data-day="${row.date}" data-field="carb">${fmt(row.carb,1)}</td>
+      <td contenteditable data-day="${row.date}" data-field="fat">${fmt(row.fat,1)}</td>
+      <td style="font-weight:700">${def!=null?(def>0?'+':'')+fmt(def):'—'}</td>
+      <td contenteditable data-day="${row.date}" data-field="phase">${row.phase!=null?fmt(row.phase):''}</td>
+      <td contenteditable data-day="${row.date}" data-field="mindfulness">${row.mindfulness!=null?fmt(row.mindfulness):''}</td>
+      <td><button class="btn-secondary btn-small" data-rmv="${row.date}">🗑️</button></td>
+    `;
+    hb.appendChild(tr);
+  });
+  
+  $$('#historyTable thead th[data-sort]').forEach(th => {
+    th.removeEventListener('click', handleHistorySort);
+    th.addEventListener('click', handleHistorySort);
+  });
+  
+  hb.querySelectorAll('[contenteditable]').forEach(cell=>{
+    cell.addEventListener('blur',e=>{
+      const date=e.target.dataset.day;
+      const field=e.target.dataset.field;
+      let val=e.target.textContent.trim();
+      const d=getDay(date);
+      
+      if(!d)return;
+      
+      if(field==='date'){
+        const originalDate = d.date;
+        const newISODate = toISODate(val);
+        
+        if (newISODate === originalDate) {
+          e.target.textContent = formatDate(originalDate);
+          return;
+        }
+
+        if(getDay(newISODate)){
+          alert('⚠️ Esta data já existe!');
+          e.target.textContent=formatDate(originalDate);
+          return;
+        }
+        
+        d.date = newISODate;
+        state.days = state.days.filter(x => x.date !== originalDate);
+        state.days.push(d);
+        
+        e.target.textContent=formatDate(newISODate);
+      }else if(['weight','sleep','mood','bb','stress','trainingBurned','burned','consumed','prot','carb','fat','phase','mindfulness'].includes(field)){
+        d[field]=num(val);
+      }else{
+        d[field]=val;
+      }
+      save();
+      render();
+    });
+  });
+  
+  hb.querySelectorAll('button[data-rmv]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(!confirm('Remover este registro?'))return;
+      state.days=state.days.filter(x=>x.date!==btn.dataset.rmv);
+      save();
+      render();
+    });
+  });
+}
+
+function handleHistorySort(e){
+  const newKey = e.target.dataset.sort;
+  if(!newKey) return;
+  
+  if(historySort.key === newKey){
+    historySort.dir = historySort.dir === 'asc' ? 'desc' : 'asc';
+  } else {
+    historySort.key = newKey;
+    historySort.dir = 'desc';
+  }
+  renderHistory();
+}
+
+function updateSummary(){
+  const bar=$('#summaryBar');
+  if(!bar)return;
+  
+  if(!state.days.length){
+    bar.innerHTML='Sem dados. Adicione registros!';
+    return;
+  }
+  
+  const daysWithWeight = state.days.filter(d => num(d.weight) != null);
+  const pesoM=mean(daysWithWeight.map(d=>num(d.weight)));
+  
+  const sonoM=mean(state.days.map(d=>num(d.sleep)));
+  const humorM=mean(state.days.map(d=>num(d.mood)));
+  const treinos=state.days.filter(d=>d.trainingType&&d.trainingType.trim()).length;
+  const defM=mean(state.days.map(d=>deficitOf(d)).filter(v=>v!=null));
+  
+  const targetWeight=num(state.targetWeight);
+  let targetHTML='';
+  if(targetWeight!=null&&pesoM!=null){
+    const diff=pesoM-targetWeight;
+    const diffStr=diff>0?`-${fmt(diff,1)}`:(diff<0?`+${fmt(Math.abs(diff),1)}`:'🎉 META!');
+    targetHTML=`<span>🎯 <b>Meta:</b> ${fmt(targetWeight,1)} kg (faltam ${diffStr} kg)</span>`;
+  }else if(targetWeight!=null){
+    targetHTML=`<span>🎯 <b>Meta:</b> ${fmt(targetWeight,1)} kg</span>`;
+  }
+  
+  bar.innerHTML=`
+    <span>⚖️ <b>Peso:</b> ${pesoM!=null?fmt(pesoM,1)+' kg':'—'}</span>
+    ${targetHTML}
+    <span>😴 <b>Sono:</b> ${sonoM!=null?fmt(sonoM,1)+' h':'—'}</span>
+    <span>😊 <b>Humor:</b> ${humorM!=null?fmt(humorM,1)+'/5':'—'}</span>
+    <span>💪 <b>Treinos:</b> ${treinos}</span>
+    <span>📉 <b>Déficit:</b> ${defM!=null?fmt(Math.round(defM))+' kcal/dia':'—'}</span>
+  `;
+}
+
+function computeProjections(){
+  const projMonth=$('#projMonth');
+  const progDef=$('#progDef');
+  if(!projMonth||!progDef)return;
+  
+  const target=new Date(projMonth.value+'-01');
+  target.setMonth(target.getMonth()+1);
+  target.setDate(0);
+  
+  const progDefVal=Math.max(0,Number(progDef.value||300));
+  
+  const sorted=[...state.days].filter(d=>num(d.weight)!=null).sort((a,b)=>a.date<b.date?-1:1);
+  
+  if(sorted.length<2){
+    ['trendWeek','trendTarget','trendTotal','progWeek','progTarget','progTotal','realWeek','realTarget','realTotal']
+      .forEach(id=>{
+        const el=$('#'+id);
+        if(el)el.textContent='—';
+      });
+    return;
+  }
+  
+  const first=sorted[0];
+  const last=sorted[sorted.length-1];
+  const currentWeight=num(last.weight);
+  const targetWeight=num(state.targetWeight);
+  
+  const span=Math.max(1,(new Date(last.date)-new Date(first.date))/86400000);
+  const daysTo=Math.max(0,(target-new Date())/86400000);
+  
+  const slope=(num(last.weight)-num(first.weight))/span; 
+  
+  if($('#trendWeek'))$('#trendWeek').textContent=fmt(slope*7, 2);
+  
+  const trendProjected=currentWeight+slope*daysTo;
+  if($('#trendTarget'))$('#trendTarget').textContent=fmt(trendProjected, 1);
+  
+  if(targetWeight!=null){
+    const diff=Math.abs(currentWeight-targetWeight);
+    if($('#trendTotal'))$('#trendTotal').textContent=fmt(diff, 1);
+  }else{
+    if($('#trendTotal'))$('#trendTotal').textContent=fmt(Math.abs(slope*daysTo), 1);
+  }
+  
+  const progKg=-progDefVal*KG_PER_KCAL;
+  if($('#progWeek'))$('#progWeek').textContent=fmt(progKg*7, 2);
+  if($('#progTarget'))$('#progTarget').textContent=fmt(currentWeight+progKg*daysTo, 1);
+  if($('#progTotal'))$('#progTotal').textContent=fmt(Math.abs(progKg*daysTo), 1);
+  
+  const avgDef=mean(state.days.map(d=>deficitOf(d)).filter(v=>v!=null))||0;
+  const realKg=-avgDef*KG_PER_KCAL;
+  if($('#realWeek'))$('#realWeek').textContent=fmt(realKg*7, 2);
+  if($('#realTarget'))$('#realTarget').textContent=fmt(currentWeight+realKg*daysTo, 1);
+  if($('#realTotal'))$('#realTotal').textContent=fmt(Math.abs(realKg*daysTo), 1);
+}
+
+function computeWeekly(){
+  const arr=[...state.days].sort((a,b)=>a.date<b.date?-1:1).slice(-7);
+  
+  if(!arr.length){
+    if($('#avgWeekKcal'))$('#avgWeekKcal').textContent='—';
+    if($('#lossPerWeek'))$('#lossPerWeek').textContent='—';
+    if($('#burnWeek'))$('#burnWeek').textContent='—';
+    return;
+  }
+  
+  const defDays=arr.map(d=>deficitOf(d)).filter(v=>v!=null);
+  
+  if (!defDays.length) {
+      if($('#avgWeekKcal'))$('#avgWeekKcal').textContent='—';
+      if($('#lossPerWeek'))$('#lossPerWeek').textContent='—';
+      if($('#burnWeek'))$('#burnWeek').textContent='—';
+      return;
+  }
+  
+  const avgDef=mean(defDays);
+  const totalDef = defDays.reduce((s,d)=>s+d,0);
+  
+  if($('#avgWeekKcal'))$('#avgWeekKcal').textContent=avgDef!=null?fmt(Math.round(avgDef)):'—';
+  if($('#lossPerWeek'))$('#lossPerWeek').textContent=avgDef!=null?fmt(Math.abs(avgDef*7*KG_PER_KCAL), 2):'—';
+  if($('#burnWeek'))$('#burnWeek').textContent=fmt(Math.round(totalDef));
+}
+
+function computeCycleInsights(){
+  const container=$('#cycleInsights');
+  if(!container)return;
+  
+  const daysWithPhase = state.days.filter(d => num(d.phase) != null);
+  
+  if(daysWithPhase.length < 4){
+    container.innerHTML='<p style="color:var(--muted)">🔍 Adicione pelo menos 4 registros com as fases do ciclo para ver insights personalizados!</p>';
+    return;
+  }
+  
+  const phaseNames = {
+    1: {name:'Menstruação 🩸', emoji:'🩸', bg:'var(--menstrual)'},
+    2: {name:'Folicular 🌱', emoji:'🌱', bg:'var(--folicular)'},
+    3: {name:'Ovulatória ✨', emoji:'✨', bg:'var(--ovulatoria)'},
+    4: {name:'Lútea 🌕', emoji:'🌕', bg:'var(--lutea)'}
+  };
+  
+  const byPhase = {1:[], 2:[], 3:[], 4:[]};
+  daysWithPhase.forEach(d => {
+    const p = num(d.phase);
+    if(p >= 1 && p <= 4) byPhase[p].push(d);
+  });
+  
+  let html = '<div style="display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">';
+  
+  [1,2,3,4].forEach(phase => {
+    const days = byPhase[phase];
+    const info = phaseNames[phase];
+    
+    if(days.length === 0){
+      html += `
+        <div style="background:${info.bg};padding:16px;border-radius:12px;border:2px solid rgba(0,0,0,0.1)">
+          <h4 style="margin:0 0 8px 0;font-size:14px">${info.name}</h4>
+          <p style="font-size:12px;color:var(--muted);margin:0">Sem dados nesta fase ainda</p>
+        </div>
+      `;
+      return;
+    }
+    
+    const weights = days.map(d=>num(d.weight)).filter(v=>v!=null);
+    const sleeps = days.map(d=>num(d.sleep)).filter(v=>v!=null);
+    const moods = days.map(d=>num(d.mood)).filter(v=>v!=null);
+    const stresses = days.map(d=>num(d.stress)).filter(v=>v!=null);
+    const deficits = days.map(d=>deficitOf(d)).filter(v=>v!=null);
+    const consumed = days.map(d=>num(d.consumed)).filter(v=>v!=null);
+    const prots = days.map(d=>num(d.prot)).filter(v=>v!=null);
+    const carbs = days.map(d=>num(d.carb)).filter(v=>v!=null);
+    const fats = days.map(d=>num(d.fat)).filter(v=>v!=null);
+    const trainBurned = days.filter(d=>String(d.trainingType||'').trim().length > 0).map(d=>num(d.trainingBurned)).filter(v=>v!=null);
+    
+    const avgWeight = weights.length ? mean(weights) : null;
+    const avgSleep = sleeps.length ? mean(sleeps) : null;
+    const avgMood = moods.length ? mean(moods) : null;
+    const avgStress = stresses.length ? mean(stresses) : null;
+    const avgDeficit = deficits.length ? mean(deficits) : null;
+    const avgConsumed = consumed.length ? mean(consumed) : null;
+    const avgProt = prots.length ? mean(prots) : null;
+    const avgCarb = carbs.length ? mean(carbs) : null;
+    const avgFat = fats.length ? mean(fats) : null;
+    const avgTrainBurned = trainBurned.length ? mean(trainBurned) : null;
+    
+    const trainDays = days.filter(d=>String(d.trainingType||'').trim().length > 0).length;
+    const trainPercent = days.length > 0 ? (trainDays / days.length * 100) : 0;
+    
+    html += `
+      <div style="background:${info.bg};padding:16px;border-radius:12px;border:2px solid rgba(0,0,0,0.1)">
+        <h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800">${info.name}</h4>
+        <div style="font-size:12px;line-height:2">
+          <div><b>📊 ${days.length} registros</b></div>
+          ${avgWeight ? `<div>⚖️ Peso: <b>${fmt(avgWeight,1)} kg</b></div>` : ''}
+          ${avgSleep ? `<div>😴 Sono: <b>${fmt(avgSleep,1)} h</b></div>` : ''}
+          ${avgMood != null ? `<div>😊 Humor: <b>${fmt(avgMood,1)}/5</b></div>` : ''}
+          ${avgStress != null ? `<div>😰 Estresse: <b>${fmt(avgStress,0)}/100</b></div>` : ''}
+          ${avgConsumed != null ? `<div>🍽️ Consumo: <b>${fmt(avgConsumed,0)} kcal</b></div>` : ''}
+          ${avgDeficit != null ? `<div>🔥 Déficit: <b>${fmt(Math.round(avgDeficit))} kcal</b></div>` : ''}
+          ${avgProt != null ? `<div>🥩 Proteína: <b>${fmt(avgProt,1)} g</b></div>` : ''}
+          ${avgCarb != null ? `<div>🍞 Carboidrato: <b>${fmt(avgCarb,1)} g</b></div>` : ''}
+          ${avgFat != null ? `<div>🥑 Gordura: <b>${fmt(avgFat,1)} g</b></div>` : ''}
+          ${trainDays > 0 ? `<div>💪 Treinos: <b>${trainDays}x (${fmt(trainPercent,0)}%)</b></div>` : ''}
+          ${avgTrainBurned != null ? `<div>🔥 Queima/Treino: <b>${fmt(avgTrainBurned,0)} kcal</b></div>` : ''}
+        </div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  
+  // Análise comparativa entre fases
+  const bestPhaseWeight = [1,2,3,4].map(p => ({
+    phase: p,
+    weight: mean(byPhase[p].map(d=>num(d.weight)).filter(v=>v!=null))
+  })).filter(x => x.weight != null).sort((a,b) => a.weight - b.weight)[0];
+  
+  const bestPhaseMood = [1,2,3,4].map(p => ({
+    phase: p,
+    mood: mean(byPhase[p].map(d=>num(d.mood)).filter(v=>v!=null))
+  })).filter(x => x.mood != null).sort((a,b) => b.mood - a.mood)[0];
+  
+  const bestPhaseSleep = [1,2,3,4].map(p => ({
+    phase: p,
+    sleep: mean(byPhase[p].map(d=>num(d.sleep)).filter(v=>v!=null))
+  })).filter(x => x.sleep != null).sort((a,b) => b.sleep - a.sleep)[0];
+  
+  const trainByPhase = [1,2,3,4].map(p => ({
+    phase: p,
+    count: byPhase[p].filter(d=>String(d.trainingType||'').trim().length > 0).length,
+    total: byPhase[p].length,
+    avgStress: mean(byPhase[p].map(d=>num(d.stress)).filter(v=>v!=null))
+  })).filter(x => x.total > 0).map(x => ({...x, percent: x.count / x.total}));
+  
+  const mostTrained = [...trainByPhase].sort((a,b) => b.percent - a.percent)[0];
+  const leastTrained = [...trainByPhase].sort((a,b) => a.percent - b.percent)[0];
+  
+  const stressByPhase = [1,2,3,4].map(p => ({
+    phase: p,
+    stress: mean(byPhase[p].map(d=>num(d.stress)).filter(v=>v!=null)),
+    stressWithTrain: mean(byPhase[p].filter(d=>String(d.trainingType||'').trim().length > 0).map(d=>num(d.stress)).filter(v=>v!=null)),
+    stressNoTrain: mean(byPhase[p].filter(d=>String(d.trainingType||'').trim().length === 0).map(d=>num(d.stress)).filter(v=>v!=null))
+  })).filter(x => x.stress != null);
+  
+  const mostStressed = [...stressByPhase].sort((a,b) => b.stress - a.stress)[0];
+  const leastStressed = [...stressByPhase].sort((a,b) => a.stress - b.stress)[0];
+  
+  // Análise de consumo calórico e macros
+  const consumptionByPhase = [1,2,3,4].map(p => ({
+    phase: p,
+    consumed: mean(byPhase[p].map(d=>num(d.consumed)).filter(v=>v!=null)),
+    prot: mean(byPhase[p].map(d=>num(d.prot)).filter(v=>v!=null)),
+    carb: mean(byPhase[p].map(d=>num(d.carb)).filter(v=>v!=null)),
+    fat: mean(byPhase[p].map(d=>num(d.fat)).filter(v=>v!=null)),
+    trainBurn: mean(byPhase[p].filter(d=>String(d.trainingType||'').trim().length > 0).map(d=>num(d.trainingBurned)).filter(v=>v!=null))
+  }));
+  
+  const mostConsumed = [...consumptionByPhase].filter(x=>x.consumed!=null).sort((a,b) => b.consumed - a.consumed)[0];
+  const mostProt = [...consumptionByPhase].filter(x=>x.prot!=null).sort((a,b) => b.prot - a.prot)[0];
+  const mostCarb = [...consumptionByPhase].filter(x=>x.carb!=null).sort((a,b) => b.carb - a.carb)[0];
+  const mostFat = [...consumptionByPhase].filter(x=>x.fat!=null).sort((a,b) => b.fat - a.fat)[0];
+  const mostTrainBurn = [...consumptionByPhase].filter(x=>x.trainBurn!=null).sort((a,b) => b.trainBurn - a.trainBurn)[0];
+  
+  html += '<div style="margin-top:20px;padding:16px;background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border-radius:12px;border:2px solid #0ea5e9">';
+  html += '<h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800">🎯 INSIGHTS PERSONALIZADOS</h4>';
+  html += '<div style="font-size:13px;line-height:1.9">';
+  
+  // Peso
+  if(bestPhaseWeight){
+    html += `<div>⚖️ Seu <b>menor peso</b> ocorre na fase <b>${phaseNames[bestPhaseWeight.phase].name}</b> (${fmt(bestPhaseWeight.weight,1)} kg em média)</div>`;
+  }
+  
+  // Humor e Sono
+  if(bestPhaseMood){
+    html += `<div>😊 Seu <b>melhor humor</b> ocorre na fase <b>${phaseNames[bestPhaseMood.phase].name}</b> (${fmt(bestPhaseMood.mood,1)}/5 em média)</div>`;
+  }
+  
+  if(bestPhaseSleep){
+    html += `<div>😴 Você <b>dorme melhor</b> na fase <b>${phaseNames[bestPhaseSleep.phase].name}</b> (${fmt(bestPhaseSleep.sleep,1)}h em média)</div>`;
+  }
+  
+  // Treino e Estresse
+  if(mostTrained && mostTrained.count > 0){
+    const stressInfo = mostTrained.avgStress ? ` e seu estresse médio é ${fmt(mostTrained.avgStress,0)}/100` : '';
+    html += `<div>💪 Você treina <b>mais</b> na fase <b>${phaseNames[mostTrained.phase].name}</b> (${fmt(mostTrained.percent * 100,0)}% dos dias${stressInfo})</div>`;
+  }
+  
+  if(leastTrained && mostTrained && leastTrained.phase !== mostTrained.phase){
+    html += `<div>🛋️ Você treina <b>menos</b> na fase <b>${phaseNames[leastTrained.phase].name}</b> (${fmt(leastTrained.percent * 100,0)}% dos dias)</div>`;
+  }
+  
+  if(mostStressed){
+    const trainEffect = mostStressed.stressWithTrain && mostStressed.stressNoTrain 
+      ? ` (${fmt(mostStressed.stressWithTrain,0)} com treino vs ${fmt(mostStressed.stressNoTrain,0)} sem treino)`
+      : '';
+    html += `<div>😰 Seu <b>maior estresse</b> ocorre na fase <b>${phaseNames[mostStressed.phase].name}</b> (${fmt(mostStressed.stress,0)}/100${trainEffect})</div>`;
+  }
+  
+  if(leastStressed && mostStressed && leastStressed.phase !== mostStressed.phase){
+    html += `<div>😌 Você fica <b>menos estressada</b> na fase <b>${phaseNames[leastStressed.phase].name}</b> (${fmt(leastStressed.stress,0)}/100)</div>`;
+  }
+  
+  // Análise de treino x estresse
+  const bestStressReduction = stressByPhase
+    .filter(x => x.stressWithTrain && x.stressNoTrain && x.stressNoTrain > x.stressWithTrain)
+    .map(x => ({...x, reduction: x.stressNoTrain - x.stressWithTrain}))
+    .sort((a,b) => b.reduction - a.reduction)[0];
+  
+  if(bestStressReduction){
+    html += `<div>🎯 Treinar na fase <b>${phaseNames[bestStressReduction.phase].name}</b> reduz seu estresse em <b>${fmt(bestStressReduction.reduction,0)} pontos</b> em média!</div>`;
+  }
+  
+  html += '</div></div>';
+  
+  // Insights de Consumo Calórico
+  html += '<div style="margin-top:16px;padding:16px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;border:2px solid #fbbf24">';
+  html += '<h4 style="margin:0 0 12px 0;font-size:14px;font-weight:800">🍽️ INSIGHTS DE NUTRIÇÃO</h4>';
+  html += '<div style="font-size:13px;line-height:1.9">';
+  
+  if(mostConsumed){
+    html += `<div>📈 Você consome <b>mais calorias</b> na fase <b>${phaseNames[mostConsumed.phase].name}</b> (${fmt(mostConsumed.consumed,0)} kcal em média)</div>`;
+  }
+  
+  if(mostProt){
+    html += `<div>🥩 Maior consumo de <b>proteína</b> na fase <b>${phaseNames[mostProt.phase].name}</b> (${fmt(mostProt.prot,1)} g em média)</div>`;
+  }
+  
+  if(mostCarb){
+    html += `<div>🍞 Maior consumo de <b>carboidrato</b> na fase <b>${phaseNames[mostCarb.phase].name}</b> (${fmt(mostCarb.carb,1)} g em média)</div>`;
+  }
+  
+  if(mostFat){
+    html += `<div>🥑 Maior consumo de <b>gordura</b> na fase <b>${phaseNames[mostFat.phase].name}</b> (${fmt(mostFat.fat,1)} g em média)</div>`;
+  }
+  
+  if(mostTrainBurn){
+    html += `<div>🔥 Você <b>queima mais calorias</b> nos treinos durante a fase <b>${phaseNames[mostTrainBurn.phase].name}</b> (${fmt(mostTrainBurn.trainBurn,0)} kcal por treino)</div>`;
+  }
+  
+  // Análise comparativa de macros por fase
+  [1,2,3,4].forEach(phase => {
+    const data = consumptionByPhase.find(x => x.phase === phase);
+    if(!data || !data.prot || !data.carb || !data.fat) return;
+    
+    const total = data.prot + data.carb + data.fat;
+    const protPercent = (data.prot / total) * 100;
+    const carbPercent = (data.carb / total) * 100;
+    const fatPercent = (data.fat / total) * 100;
+    
+    let dominantMacro = 'proteína';
+    let dominantValue = protPercent;
+    if(carbPercent > dominantValue) { dominantMacro = 'carboidrato'; dominantValue = carbPercent; }
+    if(fatPercent > dominantValue) { dominantMacro = 'gordura'; }
+    
+    html += `<div>📊 Na fase <b>${phaseNames[phase].name}</b>, você consome mais <b>${dominantMacro}</b> (P: ${fmt(protPercent,0)}%, C: ${fmt(carbPercent,0)}%, G: ${fmt(fatPercent,0)}%)</div>`;
+  });
+  
+  html += '</div></div>';
+  
+  container.innerHTML = html;
+}
+
+function drawAllCharts(){
+  drawWeightChart();
+  drawCycleChart();
+  drawMoodChart();
+  drawSleepChart();
+  drawMacrosChart();
+  drawStressChart();
+}
+
+function drawWeightChart(){
+  const arr=[...state.days].filter(d=>d.weight!=null).sort((a,b)=>a.date<b.date?-1:1).slice(-90);
+  if(!arr.length)return;
+  
+  const labels=arr.map(d=>formatDate(d.date));
+  const peso=arr.map(d=>d.weight);
+  
+  if(charts.weight)charts.weight.destroy();
+  const ctx=$('#chartWeight');
+  if(!ctx)return;
+  
+  charts.weight=new Chart(ctx.getContext('2d'),{
+    type:'line',
+    data:{
+      labels,
+      datasets:[{
+        label:'Peso (kg)',
+        data:peso,
+        borderColor:'#ec4899',
+        backgroundColor:'rgba(236,72,153,0.1)',
+        tension:0.4,
+        pointRadius:4,
+        borderWidth:3,
+        fill:true
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false}}
+    }
+  });
+}
+
+function drawCycleChart(){
+  const arr=[...state.days].sort((a,b)=>a.date<b.date?-1:1).slice(-90);
+  if(!arr.length)return;
+  
+  const labels=arr.map(d=>formatDate(d.date));
+  const peso=arr.map(d=>d.weight);
+  const fase=arr.map(d=>d.phase);
+  
+  if(charts.cycle)charts.cycle.destroy();
+  const ctx=$('#chartCycle');
+  if(!ctx)return;
+  
+  charts.cycle=new Chart(ctx.getContext('2d'),{
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'Peso',data:peso,borderColor:'#ec4899',yAxisID:'y1',borderWidth:2,tension:0.3},
+        {label:'Fase',data:fase,borderColor:'#8b5cf6',yAxisID:'y2',stepped:true,borderWidth:2}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      scales:{
+        y1:{position:'left',beginAtZero:false,title:{display:true,text:'Peso (kg)'}},
+        y2:{position:'right',min:0,max:5,title:{display:true,text:'Fase'},grid:{display:false}}
+      }
+    }
+  });
+}
+
+function drawMoodChart(){
+  const arr=[...state.days].sort((a,b)=>a.date<b.date?-1:1).slice(-30);
+  if(!arr.length)return;
+  
+  const labels=arr.map(d=>formatDate(d.date));
+  const humor=arr.map(d=>d.mood);
+  const bb=arr.map(d=>d.bb);
+  
+  if(charts.mood)charts.mood.destroy();
+  const ctx=$('#chartMood');
+  if(!ctx)return;
+  
+  charts.mood=new Chart(ctx.getContext('2d'),{
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'Humor',data:humor,borderColor:'#f59e0b',yAxisID:'y1',borderWidth:2,tension:0.3},
+        {label:'BB',data:bb,borderColor:'#22c55e',yAxisID:'y2',borderWidth:2,tension:0.3}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      scales:{
+        y1:{position:'left',min:0,max:5,title:{display:true,text:'Humor'}},
+        y2:{position:'right',min:0,max:100,title:{display:true,text:'Body Battery'},grid:{display:false}}
+      }
+    }
+  });
+}
+
+function drawSleepChart(){
+  const arr=[...state.days].sort((a,b)=>a.date<b.date?-1:1).slice(-14);
+  if(!arr.length)return;
+  
+  const labels=arr.map(d=>formatDate(d.date));
+  const sleep=arr.map(d=>d.sleep||0);
+  
+  if(charts.sleep)charts.sleep.destroy();
+  const ctx=$('#chartSleep');
+  if(!ctx)return;
+  
+  charts.sleep=new Chart(ctx.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        label:'Sono (h)',
+        data:sleep,
+        backgroundColor:sleep.map(h=>h>=7&&h<=9?'#22c55e':h<7?'#ef4444':'#f59e0b'),
+        borderRadius:8
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{y:{min:0,max:12,title:{display:true,text:'Horas'}}}
+    }
+  });
+}
+
+function drawMacrosChart(){
+  const arr=[...state.days].sort((a,b)=>a.date<b.date?-1:1).slice(-14);
+  if(!arr.length)return;
+  
+  const labels=arr.map(d=>formatDate(d.date));
+  const p=arr.map(d=>d.prot||0);
+  const c=arr.map(d=>d.carb||0);
+  const f=arr.map(d=>d.fat||0);
+  
+  if(charts.macros)charts.macros.destroy();
+  const ctx=$('#chartMacros');
+  if(!ctx)return;
+  
+  charts.macros=new Chart(ctx.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Prot',data:p,backgroundColor:'#8b5cf6',stack:'m',borderRadius:6},
+        {label:'Carb',data:c,backgroundColor:'#ec4899',stack:'m',borderRadius:6},
+        {label:'Gord',data:f,backgroundColor:'#22c55e',stack:'m',borderRadius:6}
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      scales:{
+        x:{stacked:true},
+        y:{stacked:true,title:{display:true,text:'Gramas'}}
+      }
+    }
+  });
+}
+
+function drawStressChart(){
+  const daysWithPhase = state.days.filter(d => num(d.phase) != null);
+  
+  if(daysWithPhase.length < 4){
+    if(charts.stress)charts.stress.destroy();
+    const ctx=$('#chartStress');
+    if(!ctx)return;
+    
+    ctx.getContext('2d').clearRect(0, 0, ctx.width, ctx.height);
+    return;
+  }
+  
+  const byPhase = {1:[], 2:[], 3:[], 4:[]};
+  daysWithPhase.forEach(d => {
+    const p = num(d.phase);
+    if(p >= 1 && p <= 4) byPhase[p].push(d);
+  });
+  
+  const phaseNames = ['Menstruação', 'Folicular', 'Ovulatória', 'Lútea'];
+  const phaseColors = ['#fee2e2', '#d1fae5', '#ede9fe', '#fef9c3'];
+  
+  const avgStress = [1,2,3,4].map(p => {
+    const stresses = byPhase[p].map(d=>num(d.stress)).filter(v=>v!=null);
+    return stresses.length ? mean(stresses) : 0;
+  });
+  
+  const trainPercent = [1,2,3,4].map(p => {
+    const days = byPhase[p];
+    if(!days.length) return 0;
+    const trainDays = days.filter(d=>String(d.trainingType||'').trim().length > 0).length;
+    return (trainDays / days.length) * 100;
+  });
+  
+  const avgStressWithTrain = [1,2,3,4].map(p => {
+    const stresses = byPhase[p]
+      .filter(d=>String(d.trainingType||'').trim().length > 0)
+      .map(d=>num(d.stress)).filter(v=>v!=null);
+    return stresses.length ? mean(stresses) : 0;
+  });
+  
+  const avgStressNoTrain = [1,2,3,4].map(p => {
+    const stresses = byPhase[p]
+      .filter(d=>String(d.trainingType||'').trim().length === 0)
+      .map(d=>num(d.stress)).filter(v=>v!=null);
+    return stresses.length ? mean(stresses) : 0;
+  });
+  
+  if(charts.stress)charts.stress.destroy();
+  const ctx=$('#chartStress');
+  if(!ctx)return;
+  
+  charts.stress=new Chart(ctx.getContext('2d'),{
+    type:'bar',
+    data:{
+      labels: phaseNames,
+      datasets:[
+        {
+          label:'Estresse Médio',
+          data:avgStress,
+          backgroundColor:'#ef4444',
+          borderRadius:8,
+          borderWidth:2,
+          borderColor:'#dc2626'
+        },
+        {
+          label:'% Treinos',
+          data:trainPercent,
+          backgroundColor:'#8b5cf6',
+          borderRadius:8,
+          borderWidth:2,
+          borderColor:'#7c3aed'
+        },
+        {
+          label:'Estresse (Com Treino)',
+          data:avgStressWithTrain,
+          backgroundColor:'#22c55e',
+          borderRadius:8,
+          borderWidth:2,
+          borderColor:'#16a34a'
+        },
+        {
+          label:'Estresse (Sem Treino)',
+          data:avgStressNoTrain,
+          backgroundColor:'#f59e0b',
+          borderRadius:8,
+          borderWidth:2,
+          borderColor:'#d97706'
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          display:true,
+          position:'top'
+        },
+        tooltip:{
+          callbacks:{
+            label:function(context){
+              let label = context.dataset.label || '';
+              if(label){
+                label += ': ';
+              }
+              if(context.datasetIndex === 1){
+                label += fmt(context.parsed.y, 0) + '%';
+              }else{
+                label += fmt(context.parsed.y, 1);
+              }
+              return label;
+            }
+          }
+        }
+      },
+      scales:{
+        y:{
+          beginAtZero:true,
+          max:100,
+          title:{display:true,text:'Valores'},
+          ticks:{stepSize:20}
+        }
+      }
+    }
+  });
+}
+
+function setupModalDay(){
+  const btnAddDay=$('#btnAddDay');
+  const modalDay=$('#modalDay');
+  const closeDay=$('#closeDay');
+  const saveDay=$('#saveDay');
+  const datePicker=$('#datePicker');
+  
+  if(btnAddDay){
+    btnAddDay.addEventListener('click',()=>{
+      const fields=['f_weight','f_sleep','f_mood','f_bb','f_stress','f_burned','f_training','f_train_burn','f_mind','f_phase','f_cons','f_p','f_c','f_f'];
+      fields.forEach(i=>{
+        const el=$('#'+i);
+        if(el)el.value='';
+      });
+      
+      const fDate=$('#f_date');
+      const sortedDays = [...state.days].sort((a,b)=>a.date<b.date?1:-1);
+      const lastDay = sortedDays.length ? sortedDays[0] : null; 
+      
+      if(fDate)fDate.value=datePicker?datePicker.value:today();
+      
+      if(lastDay){
+        if ($('#f_burned')) $('#f_burned').value = lastDay.burned || '';
+        if ($('#f_cons')) $('#f_cons').value = lastDay.consumed || '';
+        if ($('#f_p')) $('#f_p').value = lastDay.prot || '';
+        if ($('#f_c')) $('#f_c').value = lastDay.carb || '';
+        if ($('#f_f')) $('#f_f').value = lastDay.fat || '';
+      }
+      
+      if(modalDay)modalDay.style.display='flex';
+    });
+  }
+  
+  if(closeDay&&modalDay){
+    closeDay.addEventListener('click',()=>{
+      modalDay.style.display='none';
+    });
+  }
+  
+  if(saveDay){
+    saveDay.addEventListener('click',()=>{
+      const fDate=$('#f_date');
+      const d=ensureDay(fDate?fDate.value:today());
+      
+      d.weight=num($('#f_weight')?.value);
+      d.sleep=num($('#f_sleep')?.value);
+      d.mood=num($('#f_mood')?.value);
+      d.bb=num($('#f_bb')?.value);
+      d.stress=num($('#f_stress')?.value);
+      d.burned=num($('#f_burned')?.value) || 0;
+      d.trainingType=$('#f_training')?.value?.trim()||'';
+      d.trainingBurned=num($('#f_train_burn')?.value)||0;
+      d.mindfulness=num($('#f_mind')?.value)||0;
+      d.phase=num($('#f_phase')?.value);
+      d.consumed=num($('#f_cons')?.value) || 0;
+      d.prot=num($('#f_p')?.value)||0;
+      d.carb=num($('#f_c')?.value)||0;
+      d.fat=num($('#f_f')?.value)||0;
+      
+      if(d.weight==null&&d.consumed===0&&d.burned===0){
+        if(!confirm('Você não preencheu nenhum dado principal (Peso, Consumido, GET). Deseja salvar mesmo assim?')){
+          return;
+        }
+      }
+      
+      save();
+      if(datePicker)datePicker.value=d.date;
+      render();
+      if(modalDay)modalDay.style.display='none';
+      showNotif('✅ Registro salvo com sucesso!');
+    });
+  }
+}
+
+function setupModalGerarJSON(){
+  const btnGerarJSON=$('#btnGerarJSON');
+  const modalGerarJSON=$('#modalGerarJSON');
+  const closeGerarJSON=$('#closeGerarJSON');
+  const btnCopyJSONCode=$('#btnCopyJSONCode');
+  
+  if(btnGerarJSON&&modalGerarJSON){
+    btnGerarJSON.addEventListener('click',()=>{
+      modalGerarJSON.style.display='flex';
+    });
+  }
+  
+  if(closeGerarJSON&&modalGerarJSON){
+    closeGerarJSON.addEventListener('click',()=>{
+      modalGerarJSON.style.display='none';
+    });
+  }
+  
+  if(btnCopyJSONCode){
+    btnCopyJSONCode.addEventListener('click',()=>{
+      const code=`function exportToJSON() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+  const jsonData = {days: []};
+  
+  const colMap = {
+    'Data': 'date',
+    'Peso': 'weight',
+    'Sono': 'sleep',
+    'Humor': 'mood',
+    'BB': 'bb',
+    'Estresse': 'stress',
+    'Treino': 'trainingType',
+    'Kcal Treino': 'trainingBurned',
+    'GET': 'burned',
+    'Consumido': 'consumed',
+    'Prot': 'prot',
+    'Carb': 'carb',
+    'Gord': 'fat',
+    'Fase': 'phase',
+    'Mind': 'mindfulness'
+  };
+  
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    const dayObj = {};
+    
+    headers.forEach((header, index) => {
+      const field = colMap[header];
+      if (field) {
+        let value = row[index];
+        
+        if (field === 'date' && value instanceof Date) {
+          value = Utilities.formatDate(value, Session.getScriptTimeZone(), 'yyyy-MM-dd');
+        }
+        
+        if (value === '' || value === null) {
+          value = null;
+        }
+        
+        dayObj[field] = value;
+      }
+    });
+    
+    if (dayObj.date) {
+      jsonData.days.push(dayObj);
+    }
+  }
+  
+  const fileName = 'michele-health.json';
+  const folder = DriveApp.getRootFolder();
+  const json = JSON.stringify(jsonData, null, 2);
+  
+  const files = folder.getFilesByName(fileName);
+  while (files.hasNext()) {
+    files.next().setTrashed(true);
+  }
+  
+  folder.createFile(fileName, json, MimeType.PLAIN_TEXT);
+  
+  SpreadsheetApp.getUi().alert(
+    '✅ JSON GERADO COM SUCESSO!\\n\\n' +
+    '📄 Arquivo: ' + fileName + '\\n' +
+    '📂 Local: Raiz do seu Google Drive\\n' +
+    '📊 Total de registros: ' + jsonData.days.length + '\\n\\n' +
+    'Agora vá até o Drive, baixe o arquivo e importe no dashboard!'
+  );
+}`;
+      
+      navigator.clipboard.writeText(code).then(()=>{
+        showNotif('📋 Código copiado! Cole no Apps Script e execute');
+        setTimeout(()=>{
+          alert(`✅ CÓDIGO COPIADO!
+
+Agora siga estes passos:
+
+1️⃣ Abra seu Google Sheets
+2️⃣ Vá em: Extensões → Apps Script
+3️⃣ Cole o código copiado
+4️⃣ Salve (Ctrl+S ou ícone 💾)
+5️⃣ Execute a função "exportToJSON" (▶️)
+6️⃣ Autorize quando pedir permissões
+7️⃣ O arquivo "michele-health.json" será criado no Drive!
+8️⃣ Baixe e importe aqui usando "📤 Importar JSON"
+
+🎉 Simples assim!`);
+        },500);
+      });
+    });
+  }
+}
+
+function setupModalGSheets(){
+  const btnGSheets=$('#btnGSheets');
+  const modalGSheets=$('#modalGSheets');
+  const closeGSheets=$('#closeGSheets');
+  const btnCopyCode=$('#btnCopyCode');
+  const btnTestGSheets=$('#btnTestGSheets');
+  const syncGSheets=$('#syncGSheets');
+  
+  if(btnGSheets&&modalGSheets){
+    btnGSheets.addEventListener('click',()=>{
+      const url=localStorage.getItem('gsUrl')||'';
+      const gsUrl=$('#gsUrl');
+      if(gsUrl)gsUrl.value=url;
+      modalGSheets.style.display='flex';
+    });
+  }
+  
+  if(closeGSheets&&modalGSheets){
+    closeGSheets.addEventListener('click',()=>{
+      modalGSheets.style.display='none';
+    });
+  }
+  
+  if(btnCopyCode){
+    btnCopyCode.addEventListener('click',()=>{
+      const code=`function doPost(e) {
+  try {
+    const output = ContentService.createTextOutput();
+    output.setMimeType(ContentService.MimeType.JSON);
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    let data;
+    if (e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    } else if (e.parameter && e.parameter.data) {
+      data = JSON.parse(e.parameter.data);
+    } else {
+      throw new Error('Nenhum dado recebido');
+    }
+    
+    if (sheet.getLastRow() > 0) {
+      sheet.deleteRows(2, sheet.getLastRow() - 1);
+    } else {
+      sheet.clear();
+    }
+    
+    const headers = ['Data','Peso (kg)','Sono (h)','Humor','Body Battery','Estresse','Tipo Treino','Kcal Treino','GET','Consumido','Proteína (g)','Carbo (g)','Gordura (g)','Balanço','Fase','Mindfulness'];
+    
+    if (sheet.getRange('A1').getValue() !== 'Data') {
+      sheet.appendRow(headers);
+      const headerRange = sheet.getRange(1, 1, 1, headers.length);
+      headerRange.setFontWeight('bold').setBackground('#8b5cf6').setFontColor('#ffffff').setHorizontalAlignment('center');
+    }
+    
+    let recordCount = 0;
+    if (data.days && Array.isArray(data.days)) {
+      data.days.forEach(d => {
+        const balanco = (d.burned != null && d.consumed != null) ? d.burned - d.consumed : '';
+        sheet.appendRow([
+          d.date || '', d.weight || '', d.sleep || '', d.mood || '', d.bb || '', d.stress || '',
+          d.trainingType || '', d.trainingBurned || 0, d.burned || '', d.consumed || '',
+          d.prot || 0, d.carb || 0, d.fat || 0, balanco, d.phase || '', d.mindfulness || 0
+        ]);
+        recordCount++;
+      });
+    }
+    sheet.autoResizeColumns(1, headers.length);
+    if (recordCount > 0) {
+      const dataRange = sheet.getRange(2, 1, recordCount, headers.length);
+      dataRange.setHorizontalAlignment('center');
+      for (let i = 2; i <= recordCount + 1; i++) {
+        if (i % 2 === 0) {
+          sheet.getRange(i, 1, 1, headers.length).setBackground('#f9fafb');
+        }
+      }
+    }
+    output.setContent(JSON.stringify({
+      success: true,
+      message: 'Dados sincronizados com sucesso!',
+      totalRecords: recordCount,
+      timestamp: new Date().toISOString()
+    }));
+    return output;
+  } catch(error) {
+    const output = ContentService.createTextOutput();
+    output.setMimeType(ContentService.MimeType.JSON);
+    output.setContent(JSON.stringify({
+      success: false,
+      error: error.toString(),
+      message: 'Erro ao processar dados'
+    }));
+    return output;
+  }
+}
+
+function doGet(e) {
+  const output = ContentService.createTextOutput();
+  output.setMimeType(ContentService.MimeType.JSON);
+  output.setContent(JSON.stringify({
+    status: 'online',
+    message: 'Michele Health Hub API está funcionando!',
+    timestamp: new Date().toISOString()
+  }));
+  return output;
+}`;
+      
+      navigator.clipboard.writeText(code).then(()=>{
+        showNotif('📋 Código copiado! Cole no Apps Script');
+      });
+    });
+  }
+  
+  if(btnTestGSheets){
+    btnTestGSheets.addEventListener('click',async()=>{
+      const gsUrl=$('#gsUrl');
+      const url=gsUrl?gsUrl.value.trim():'';
+      
+      if(!url){
+        alert('⚠️ Insira a URL do Web App primeiro!');
+        return;
+      }
+      
+      showNotif('🧪 Testando conexão...');
+      
+      try{
+        const response = await fetch(url, {method: 'GET'});
+        const result = await response.json();
+        
+        if (response.ok && result.status === 'online') {
+            alert(`✅ CONEXÃO OK!
+        
+A URL está acessível e configurada corretamente.
+Mensagem do Sheets: ${result.message}
+
+Agora você pode clicar em "🔄 Sincronizar Agora" para enviar seus dados.`);
+        } else {
+            throw new Error('Resposta inesperada do Web App.');
+        }
+      }catch(err){
+        alert(`❌ FALHA NO TESTE
+        
+A URL não está acessível ou a resposta foi inválida. Possíveis causas:
+
+1️⃣ Apps Script não foi implantado corretamente (verifique se implantou como "Aplicativo da Web")
+2️⃣ URL está incorreta (deve terminar com /exec)
+3️⃣ Permissões não foram configuradas (Acesso: Qualquer pessoa)
+4️⃣ Aguarde 1-2 minutos após implantar
+        
+Erro: ${err.message}`);
+      }
+    });
+  }
+  
+  if(syncGSheets){
+    syncGSheets.addEventListener('click',async()=>{
+      const gsUrl=$('#gsUrl');
+      const url=gsUrl?gsUrl.value.trim():'';
+      
+      if(!url){
+        alert('⚠️ Insira a URL do Web App primeiro!');
+        return;
+      }
+      
+      if(!url.includes('script.google.com')){
+        alert('⚠️ URL inválida! Deve começar com https://script.google.com/...');
+        return;
+      }
+      
+      localStorage.setItem('gsUrl',url);
+      showNotif('🔄 Sincronizando... Aguarde!');
+      
+      try{
+        const response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(state)
+        });
+        
+        if (response.ok) {
+          showNotif('✅ Sincronização enviada! Verifique sua planilha');
+          if(modalGSheets)modalGSheets.style.display='none';
+          
+          setTimeout(() => {
+            if(confirm('✅ Dados enviados! Quer abrir o Google Sheets para verificar?')) {
+              window.open('https://docs.google.com/spreadsheets/', '_blank');
+            }
+          }, 1000);
+        } else {
+            const errorText = await response.text();
+            throw new Error(`Status: ${response.status}. Detalhe: ${errorText.substring(0, 100)}...`);
+        }
+      }catch(err){
+        alert(`❌ Erro na sincronização: ${err.message}\n\nVerifique se seguiu todos os passos corretamente.`);
+      }
+    });
+  }
+}
+
+function setupExportImport(){
+  const btnExport=$('#btnExport');
+  const btnImport=$('#btnImport');
+  const btnPDF=$('#btnPDF');
+  
+  if(btnExport){
+    btnExport.addEventListener('click',()=>{
+      try{
+        const dataStr=JSON.stringify(state,null,2);
+        const dataUri='data:application/json;charset=utf-8,'+encodeURIComponent(dataStr);
+        const a=document.createElement('a');
+        a.setAttribute('href',dataUri);
+        a.setAttribute('download',`michele-health-${today()}.json`);
+        a.style.display='none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        showNotif('✅ Arquivo baixado!');
+        setTimeout(()=>{
+          alert(`✅ ARQUIVO EXPORTADO COM SUCESSO!\n\n📄 Nome do arquivo: michele-health-${today()}.json\n\n📂 Onde encontrar:\n- Windows: pasta "Downloads" ou "Transferências"\n- Mac: pasta "Downloads"\n- Navegador: veja o ícone de download na barra superior\n\n💡 Dica: Pressione Ctrl+J (Windows) ou Cmd+J (Mac) para ver seus downloads no navegador!\n\nTotal de registros: ${state.days.length}`);
+        },500);
+      }catch(e){
+        alert('Erro ao exportar: '+e.message);
+      }
+    });
+  }
+  
+  if(btnImport){
+    btnImport.addEventListener('click',()=>{
+      const inp=document.createElement('input');
+      inp.type='file';
+      inp.accept='.json,application/json';
+      inp.onchange=async e=>{
+        const f=e.target.files[0];
+        if(!f)return;
+        try{
+          const txt=await f.text();
+          const obj=JSON.parse(txt);
+          if(!obj.days||!Array.isArray(obj.days))throw new Error('Arquivo JSON inválido');
+          
+          const normalized=normalizeData(obj);
+          
+          const map=new Map(state.days.map(d=>[d.date,d]));
+          normalized.days.forEach(nd=>{
+            const existing = map.get(nd.date) || {};
+            const merged = Object.keys(nd).reduce((acc, key) => {
+                if (key !== 'date') acc[key] = nd[key];
+                return acc;
+            }, { ...existing, date: nd.date });
+            map.set(nd.date, merged);
+          });
+          
+          state.days=Array.from(map.values()).sort((a,b)=>a.date<b.date?-1:1);
+          
+          if(normalized.targetWeight!=null){
+            state.targetWeight=normalized.targetWeight;
+            const targetWeightInput=$('#targetWeight');
+            if(targetWeightInput)targetWeightInput.value=state.targetWeight;
+          }
+          
+          save();
+          const datePicker=$('#datePicker');
+          if(state.days.length&&datePicker)datePicker.value=state.days[state.days.length-1].date;
+          render();
+          showNotif(`✅ ${obj.days.length} registros importados!`);
+        }catch(err){
+          alert('Erro ao importar: '+err.message);
+        }
+      };
+      inp.click();
+    });
+  }
+  
+  if(btnPDF){
+    btnPDF.addEventListener('click',()=>{
+      showNotif('📄 Gerando relatório...');
+      
+      const summaryBar=$('#summaryBar');
+      const summaryText=summaryBar?summaryBar.textContent:'';
+      
+      const content=`MICHELE HEALTH HUB - RELATÓRIO
+══════════════════════════════════════════════════
+
+RESUMO GERAL
+────────────────────────────────────────────────────
+Total de registros: ${state.days.length}
+
+${summaryText.replace(/<[^>]*>/g,'')}
+
+ÚLTIMOS 10 REGISTROS DETALHADOS
+────────────────────────────────────────────────────
+${[...state.days].sort((a,b)=>a.date<b.date?1:-1).slice(0,10).map((d,i)=>{
+  const def=deficitOf(d);
+  return `
+${i+1}. ${formatDate(d.date)}
+   Peso: ${d.weight!=null?fmt(d.weight,1)+'kg':'—'} | Sono: ${d.sleep!=null?fmt(d.sleep,1)+'h':'—'} | Humor: ${d.mood!=null?fmt(d.mood):'—'}/5
+   Estresse: ${d.stress!=null?fmt(d.stress):'—'}/5 | Body Battery: ${d.bb!=null?fmt(d.bb):'—'}
+   Treino: ${d.trainingType||'Não treinou'}${d.trainingBurned?' ('+d.trainingBurned+'kcal)':''}
+   Consumido: ${d.consumed||0}kcal | Gasto: ${d.burned||0}kcal
+   Balanço: ${def!=null?(def>0?'+':'')+fmt(def)+'kcal':'—'}
+   Macros: P=${d.prot||0}g C=${d.carb||0}g G=${d.fat||0}g
+   Fase do Ciclo: ${d.phase||'—'}
+`;
+}).join('\n')}
+
+══════════════════════════════════════════════════
+Gerado em: ${formatDate(today())} às ${new Date().toLocaleTimeString('pt-BR')}
+Michele Health Hub Pro 
+`;
+      
+      const dataUri='data:text/plain;charset=utf-8,'+encodeURIComponent(content);
+      const a=document.createElement('a');
+      a.setAttribute('href',dataUri);
+      a.setAttribute('download',`michele-relatorio-${today()}.txt`);
+      a.style.display='none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      
+      setTimeout(()=>{
+        alert(`✅ RELATÓRIO GERADO COM SUCESSO!\n\n📄 Nome do arquivo: michele-relatorio-${today()}.txt\n\n📂 Onde encontrar:\n- Windows: pasta "Downloads" ou "Transferências"\n- Mac: pasta "Downloads"\n- Navegador: Ctrl+J (Windows) ou Cmd+J (Mac)\n\n💡 Você pode abrir com Bloco de Notas, Word ou qualquer editor de texto!\n\nO arquivo contém:\n✓ Resumo geral\n✓ Últimos 10 registros detalhados\n✓ Total de ${state.days.length} registros`);
+      },500);
+    });
+  }
+}
+
+function init(){
+  const datePicker=$('#datePicker');
+  const projMonth=$('#projMonth');
+  const progDef=$('#progDef');
+  const targetWeight=$('#targetWeight');
+  
+  if(!state.days.length){
+    state.days.push(ensureDay(today()));
+    save();
+  }
+  
+  if(targetWeight){
+    targetWeight.value=state.targetWeight!=null?state.targetWeight:'';
+    targetWeight.addEventListener('change',()=>{
+      state.targetWeight=num(targetWeight.value);
+      save();
+      updateSummary();
+      computeProjections();
+    });
+  }
+  
+  if(datePicker){
+    if(!datePicker.value){
+      const sortedDays = [...state.days].sort((a,b)=>a.date<b.date?1:-1);
+      datePicker.value=sortedDays.length?sortedDays[0].date:today();
+    }
+    
+    datePicker.addEventListener('change',()=>{
+      ensureDay(datePicker.value);
+      render();
+    });
+  }
+  
+  if(projMonth){
+    const now=new Date();
+    let nextMonth = now.getMonth() + 2;
+    let year = now.getFullYear();
+    if (nextMonth > 12) {
+        nextMonth = 1;
+        year++;
+    }
+    projMonth.value=`${year}-${String(nextMonth).padStart(2,'0')}`; 
+    projMonth.addEventListener('change',computeProjections);
+  }
+  
+  if(progDef){
+    progDef.addEventListener('change',computeProjections);
+  }
+  
+  setupTabs();
+  setupModalDay();
+  setupModalGerarJSON();
+  setupModalGSheets();
+  setupExportImport();
+  
+  render();
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',init);
+}else{
+  init();
+}
+
+console.log('✨ Michele Health Hub Pro  - Gráfico Estresse x Ciclo x Treino + Insights Nutricionais Avançados! 🎯🍽️');
+</script>
+</body>
+</html>
